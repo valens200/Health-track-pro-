@@ -1,0 +1,19 @@
+{
+    "type": "postgres",
+    "host": "localhost",
+    "port": 5432,
+    "username": "postgres",
+    "password": "valens",
+    "database": "lader",
+    "synchronize": true,
+    "logging": false,
+    "entities": ["../src/entities/**/*.ts"],
+    "migrations": ["../src/migrations/**/*.ts"],
+    "subscribers": ["../src/csubscribers/**/*.ts"],
+    "cli": {
+      "entitiesDir": "../src/entities",
+      "migrationsDir": "../src/migrations",
+      "subscribersDir": "../src/subscribers"
+    }
+  }
+  
