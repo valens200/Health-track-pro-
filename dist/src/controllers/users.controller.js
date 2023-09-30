@@ -10,13 +10,12 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.createUser = void 0;
-const user_entity_1 = require("../entities/user.entity");
 const repositories_1 = require("../repositories/repositories");
 const createUser = () => __awaiter(void 0, void 0, void 0, function* () {
     const repositories = yield (0, repositories_1.getRepositories)();
-    const user = new user_entity_1.User("valebs", "valens");
-    const createdUser = yield repositories.userRepository.save(user);
-    console.log(createdUser);
+    // const user: any = new User("valebs", "valens");
+    // const createdUser = await repositories.userRepository.save(user);
+    // console.log(createdUser);
 });
 exports.createUser = createUser;
 //# sourceMappingURL=users.controller.js.map

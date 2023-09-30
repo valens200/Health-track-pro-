@@ -1,0 +1,6 @@
+export enum ERole {
+  SYSTEM_ADMIN,
+  COMPANY_ADMIN,
+  COMPANY_OWNER,
+  COMPANY_EMPLOYEE,
+}

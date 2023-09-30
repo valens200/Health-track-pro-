@@ -17,6 +17,10 @@ require("reflect-metadata");
 const connection_1 = require("./src/database/connection");
 const body_parser_1 = __importDefault(require("body-parser"));
 const userRoutes = require("./src/routes/users.routes");
+const authRoutes = require("./src/routes/auth.routes");
+const swaggerAutogen = require("swagger-autogen")();
+const swaggerUi = require("swagger-ui-express");
+// const swaggerFile = require("./swagger-output.json");
 const app = (0, express_1.default)();
 const port = 4000;
 connection_1.connection
@@ -27,8 +31,10 @@ connection_1.connection
     console.log(error);
 });
 app.use(body_parser_1.default.urlencoded({ extended: true }));
+app.use("/doc", swaggerUi.serve);
 app.use(express_1.default.json());
-app.use(userRoutes);
+app.use("/users", userRoutes);
+app.use("/auth", authRoutes);
 app.listen(port, () => {
     return console.log(`Express is listening at http://localhost:${port}`);
 });

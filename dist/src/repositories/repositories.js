@@ -12,10 +12,13 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.getRepositories = void 0;
 const connection_1 = require("../database/connection");
 const getRepositories = () => __awaiter(void 0, void 0, void 0, function* () {
-    let userRepository;
     return yield connection_1.connection
         .then((connection) => {
-        return { userRepository: connection.getRepository("User") };
+        return {
+            userRepository: connection.getRepository("User"),
+            employeeRepository: connection.getRepository("Employee"),
+            companyRepository: connection.getRepository("Company"),
+        };
     })
         .catch((err) => {
         console.log(err);

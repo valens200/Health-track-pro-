@@ -26,6 +26,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express = require("express");
 const router = express.Router();
 const usersControllers = __importStar(require("../controllers/users.controller"));
-router.get("/", usersControllers.createUser);
+router.get("/create", usersControllers.createUser);
 module.exports = router;
 //# sourceMappingURL=users.routes.js.map
