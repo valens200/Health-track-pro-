@@ -16,11 +16,10 @@ exports.getRecordsByPatient = exports.getAllRecords = exports.createRecord = voi
 const connection_1 = __importDefault(require("../database/connection"));
 const createRecord = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const recordEntity = req.body;
-    connection_1.default.run("INSERT INTO records (patient_id, body_temperature, heartRate, frequent_sickness) VALUES (?,?,?,?)", [
+    connection_1.default.run("INSERT INTO records (patient_id, body_temperature, heart_rate) VALUES (?,?,?)", [
         recordEntity.patientId,
         recordEntity.body_temperature,
         recordEntity.heartRate,
-        recordEntity.frequent_sickness,
     ], (err) => {
         if (err) {
             return res.status(400).json({ message: err.message });

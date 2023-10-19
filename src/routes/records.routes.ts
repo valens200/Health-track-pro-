@@ -16,15 +16,18 @@ const router = express.Router();
  *           schema:
  *             type: object
  *             properties:
- *               national_id:
- *                 type: string
- *                 example: 2003234849383
+ *               patient_id:
+ *                 type: number
+ *                 example: 2
  *               name:
  *                 type: string
  *                 example: valens
- *               frequent_sickness:
- *                 type: string
- *                 example: none
+ *               body_temperature:
+ *                 type: number
+ *                 example: 3.4
+ *               heart_rate:
+ *                 type: number
+ *                 example: 4.5
  *
  *     responses:
  *       200:
@@ -54,13 +57,24 @@ router.get("/all", recordsController.getAllRecords);
 
 /**
  * @swagger
- * /records/:id:
+ * /records/{id}:
  *   get:
- *     summary: Get all patients
- *     description: Returns all patients stored in the database
+ *     summary: Get incident by status
+ *     description: Returns an company by status
+ *     parameters:
+ *       - in: path
+ *         name: status
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: Example 647de6688d6cf45329f03206
  *     responses:
  *       200:
  *         description: Successful response
+ *       404:
+ *         description: Notfound
+ *       400:
+ *         description: bad request when the provided status is a number
  *         content:
  *           application/json:
  *             schema:

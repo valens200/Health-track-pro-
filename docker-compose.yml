@@ -1,0 +1,12 @@
+version: '3'
+services:
+  nodejs-app:
+    container_name: nodejs-app
+    build:
+      context: .  # The build context is the current directory
+      dockerfile: Dockerfile  # Use the Dockerfile in the current directory
+    ports:
+      - "3200:4000"  # Map host port 3000 to container port 3000
+    environment:
+      - NODE_ENV=production  # Set the NODE_ENV environment variable
+    restart: unless-stopped  # Restart the container unless explicitly stopped

@@ -1,17 +1,15 @@
 import { Request, Response } from "express";
 import db from "../database/connection";
-import { CreatePatientDTO } from "../dtos/employees/create-patient.dto";
 import { CreateRecordDTO } from "../dtos/records/ceate_record-dto";
 
 export const createRecord = async (req: Request, res: Response) => {
   const recordEntity: CreateRecordDTO = req.body;
   db.run(
-    "INSERT INTO records (patient_id, body_temperature, heartRate, frequent_sickness) VALUES (?,?,?,?)",
+    "INSERT INTO records (patient_id, body_temperature, heart_rate) VALUES (?,?,?)",
     [
       recordEntity.patientId,
       recordEntity.body_temperature,
       recordEntity.heartRate,
-      recordEntity.frequent_sickness,
     ],
     (err) => {
       if (err) {
