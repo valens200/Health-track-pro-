@@ -11,13 +11,14 @@ const swaggerOptions = {
   definition: {
     openapi: "3.0.0",
     info: {
-      title: " track application",
+      title: " Health track pro+ application",
       version: "1.0.0",
       description: "Backend api for Internet of things",
     },
     servers: [
       {
-        url: "http://localhost:4000",
+        url: "http://194.163.167.131:3200/swagger-docs.html",
+        // url: "http://localhost:4000",
       },
     ],
     components: {
