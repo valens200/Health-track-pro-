@@ -32,47 +32,50 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.generateRandomFourDigitNumber = exports.hashString = exports.getGender = exports.getTokens = void 0;
+exports.generateRandomFourDigitNumber = exports.hashString = exports.getGender = void 0;
 const bad_request_exception_1 = require("../exceptions/bad-request.exception");
-const EUserType_enum_1 = require("../enums/EUserType.enum");
 const bcrypt = __importStar(require("bcrypt"));
-const jwt = __importStar(require("jsonwebtoken"));
 const EGender_enum_1 = require("../enums/EGender.enum");
-let user;
-let type;
-const getTokens = (entity, user) => __awaiter(void 0, void 0, void 0, function* () {
-    switch (type.toUpperCase()) {
-        case EUserType_enum_1.EUserType[EUserType_enum_1.EUserType.ADMIN]:
-            type = EUserType_enum_1.EUserType[EUserType_enum_1.EUserType.ADMIN];
-            break;
-        case EUserType_enum_1.EUserType[EUserType_enum_1.EUserType.PATIENT]:
-            type = EUserType_enum_1.EUserType[EUserType_enum_1.EUserType.PATIENT];
-            break;
-        default:
-            throw new bad_request_exception_1.BadRequestException("The provided user type is invalid");
-    }
-    const accessToken = yield jwt.signAsync({
-        type: type,
-        // roles: user.roles,
-        id: user.nationalId,
-    }, {
-        expiresIn: "10h",
-        secret: process.env.SECRET_KEY,
-    });
-    const refreshToken = yield jwt.signAsync({
-        type: type,
-        // roles: user.roles,
-        id: user.nationalId,
-    }, {
-        expiresIn: "1d",
-        secret: process.env.SECRET_KEY,
-    });
-    return {
-        accessToken: accessToken,
-        refreshToken: refreshToken,
-    };
-});
-exports.getTokens = getTokens;
+// let user: Patient;
+// let type: string;
+// export const getTokens = async (entity: string, user: Patient) => {
+//   switch (type.toUpperCase()) {
+//     case EUserType[EUserType.ADMIN]:
+//       type = EUserType[EUserType.ADMIN];
+//       break;
+//     case EUserType[EUserType.PATIENT]:
+//       type = EUserType[EUserType.PATIENT];
+//       break;
+//     default:
+//       throw new BadRequestException("The provided user type is invalid");
+//   }
+//   const accessToken: String = await jwt.signAsync(
+//     {
+//       type: type,
+//       // roles: user.roles,
+//       id: user.nationalId,
+//     },
+//     {
+//       expiresIn: "10h",
+//       secret: process.env.SECRET_KEY,
+//     }
+//   );
+//   const refreshToken: String = await jwt.signAsync(
+//     {
+//       type: type,
+//       // roles: user.roles,
+//       id: user.nationalId,
+//     },
+//     {
+//       expiresIn: "1d",
+//       secret: process.env.SECRET_KEY,
+//     }
+//   );
+//   return {
+//     accessToken: accessToken,
+//     refreshToken: refreshToken,
+//   };
+// };
 const getGender = (gender) => {
     switch (gender.toUpperCase()) {
         case EGender_enum_1.EGender[EGender_enum_1.EGender.FEMALE]:

@@ -12,14 +12,15 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getAllPatients = exports.createPatient = void 0;
+exports.getRecordsByPatient = exports.getAllRecords = exports.createRecord = void 0;
 const connection_1 = __importDefault(require("../database/connection"));
-const createPatient = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const employeeEntity = req.body;
-    connection_1.default.run("INSERT INTO records (national_id, name, frequent_sickness) VALUES (?,?,?)", [
-        employeeEntity.nationalId,
-        employeeEntity.name,
-        employeeEntity.frequent_sickness,
+const createRecord = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const recordEntity = req.body;
+    connection_1.default.run("INSERT INTO records (patient_id, body_temperature, heartRate, frequent_sickness) VALUES (?,?,?,?)", [
+        recordEntity.patientId,
+        recordEntity.body_temperature,
+        recordEntity.heartRate,
+        recordEntity.frequent_sickness,
     ], (err) => {
         if (err) {
             return res.status(400).json({ message: err.message });
@@ -27,13 +28,12 @@ const createPatient = (req, res) => __awaiter(void 0, void 0, void 0, function* 
         else {
             return res
                 .status(200)
-                .json({ message: "The patient ceated successfully" });
+                .json({ message: "The record  ceated successfully" });
         }
     });
 });
-exports.createPatient = createPatient;
-const getAllPatients = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const employeeEntity = req.body;
+exports.createRecord = createRecord;
+const getAllRecords = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     connection_1.default.run("SELECT * FROM records", (err, rows) => {
         if (err) {
             return res.status(400).json({ message: err.message });
@@ -42,9 +42,23 @@ const getAllPatients = (req, res) => __awaiter(void 0, void 0, void 0, function*
             console.log(rows);
             return res
                 .status(200)
-                .json({ message: "The patient retrived  successfully" });
+                .json({ message: "All records  retrived  successfully" });
         }
     });
 });
-exports.getAllPatients = getAllPatients;
+exports.getAllRecords = getAllRecords;
+const getRecordsByPatient = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const id = parseInt(req.query.id);
+    connection_1.default.run("SELECT * FROM records where patient_id = ? ", [id], (err, data) => {
+        if (err) {
+            console.log(err);
+        }
+        else {
+            return res
+                .status(200)
+                .json({ message: "Records retrieved successfully", records: data });
+        }
+    });
+});
+exports.getRecordsByPatient = getRecordsByPatient;
 //# sourceMappingURL=records.controller.js.map
