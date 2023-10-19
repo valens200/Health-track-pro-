@@ -17,7 +17,7 @@ const swaggerOptions = {
     },
     servers: [
       {
-        url: "http://194.163.167.131:3200/swagger-docs.html",
+        url: "http://194.163.167.131:3200",
         // url: "http://localhost:4000",
       },
     ],
