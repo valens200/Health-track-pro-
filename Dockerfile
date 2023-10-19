@@ -1,20 +1,22 @@
-# Use an official Node.js runtime as the base image
-FROM node:14
+FROM node:18
 
-# Set the working directory in the container
-WORKDIR /src
+# Create app directory
+WORKDIR /
 
-# Copy package.json and package-lock.json to the container
-COPY package*.json ./
+# Install app dependencies
+# A wildcard is used to ensure both package.json AND package-lock.json are copied
+# where available (npm@5+)
+COPY ["package.json", "package-lock.json*", "./"]
 
-# Install application dependencies
 RUN npm install
+RUN npm install @nestjs/swagger
+# If you are building your code for production
+# RUN npm ci --omit=dev
 
-# Copy the rest of the application source code to the container
+# Bundle app source
 COPY . .
+RUN npm run build
 
-# Expose a port for the application (if your app listens on a specific port)
-EXPOSE 4000
 
-# Command to start your Node.js application
-CMD ["node", "app.js"]
+EXPOSE 3000
+CMD [ "npm", "run" , "dev" ]

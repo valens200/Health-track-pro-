@@ -1,12 +1,18 @@
-version: '3'
+version: '3.8'
 services:
-  nodejs-app:
-    container_name: nodejs-app
+  api:
     build:
-      context: .  # The build context is the current directory
-      dockerfile: Dockerfile  # Use the Dockerfile in the current directory
-    ports:
-      - "3200:4000"  # Map host port 3000 to container port 3000
+      context: .
+      dockerfile: Dockerfile
     environment:
-      - NODE_ENV=production  # Set the NODE_ENV environment variable
-    restart: unless-stopped  # Restart the container unless explicitly stopped
+      DATABASE_URL: 'postgres://hjkaqzts:8aALgvqCK73ZB5kwVp6TY1EPxGuNGXx5@mahmud.db.elephantsql.com/hjkaqzts'
+      NODE_ENV: development
+      PORT: 4000
+    ports:
+      - "3200:4000"
+    networks:
+      - wor
+
+networks:
+  wor:
+    driver: bridge
