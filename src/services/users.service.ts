@@ -1,5 +1,4 @@
 import { UUID } from "crypto";
-import { getRepositories } from "../repositories/repositories";
 import { NotFoundException } from "../exceptions/not-found.exception";
 import { EVisibility } from "../enums/EVisibibility.enum";
 import { Patient } from "../entities/patient.entity";
@@ -7,9 +6,7 @@ import { Patient } from "../entities/patient.entity";
 let repositories;
 let user: any;
 let users: Patient[] = [];
-export const initializeRepositories = async () => {
-  repositories = await getRepositories();
-};
+export const initializeRepositories = async () => {};
 export const getUserById = async (id: UUID) => {
   await initializeRepositories();
   user = await repositories.userRepository.findOne({ where: { id: id } });

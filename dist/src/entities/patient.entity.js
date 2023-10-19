@@ -17,18 +17,19 @@ const EVisibibility_enum_1 = require("../enums/EVisibibility.enum");
 let Patient = class Patient extends initiator_audit_1.InitiatorAudit {
     constructor(name) {
         super();
-        this.firstName = name;
+        this.name = name;
     }
 };
 exports.Patient = Patient;
 __decorate([
-    (0, typeorm_1.PrimaryGeneratedColumn)(),
+    (0, typeorm_1.Column)(),
+    (0, typeorm_1.PrimaryColumn)(),
     __metadata("design:type", String)
 ], Patient.prototype, "nationalId", void 0);
 __decorate([
     (0, typeorm_1.Column)({ nullable: true }),
     __metadata("design:type", String)
-], Patient.prototype, "firstName", void 0);
+], Patient.prototype, "name", void 0);
 __decorate([
     (0, typeorm_1.Column)({
         default: EAccountStatus_enum_1.EAccountStatus[EAccountStatus_enum_1.EAccountStatus.WAITING_FOR_EMAIL_VERIFICATION],

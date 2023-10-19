@@ -24,8 +24,9 @@ var __importStar = (this && this.__importStar) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express = require("express");
-const employeesService = __importStar(require("../services/employees.service"));
+const employeeController = __importStar(require("../controllers/patientsController"));
 const router = express.Router();
-router.post("/create", employeesService.createEmployee);
+router.post("/create", employeeController.createPatient);
+router.get("/all", employeeController.getAllPatients);
 module.exports = router;
 //# sourceMappingURL=patients.routes.js.map

@@ -10,15 +10,12 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.deleteAllUsers = exports.deleteUserById = exports.updateUser = exports.getAllUsers = exports.getUserByEmail = exports.getUserById = exports.initializeRepositories = void 0;
-const repositories_1 = require("../repositories/repositories");
 const not_found_exception_1 = require("../exceptions/not-found.exception");
 const EVisibibility_enum_1 = require("../enums/EVisibibility.enum");
 let repositories;
 let user;
 let users = [];
-const initializeRepositories = () => __awaiter(void 0, void 0, void 0, function* () {
-    repositories = yield (0, repositories_1.getRepositories)();
-});
+const initializeRepositories = () => __awaiter(void 0, void 0, void 0, function* () { });
 exports.initializeRepositories = initializeRepositories;
 const getUserById = (id) => __awaiter(void 0, void 0, void 0, function* () {
     yield (0, exports.initializeRepositories)();

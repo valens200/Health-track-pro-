@@ -1,32 +1,38 @@
 import { Request, Response } from "express";
-import { NotFoundException } from "../exceptions/not-found.exception";
-import { BadRequestException } from "../exceptions/bad-request.exception";
-import { ForbiddenException } from "../exceptions/forbidden.exception";
-import { ApiResponse } from "../payload/apiResponse";
-import { CreateEmployeeDTO } from "../dtos/employees/create-employee.dto";
-import * as employeeService from "../services/employees.service";
+import db from "../database/connection";
+import { CreatePatientDTO } from "../dtos/employees/create-patient.dto";
 
-export const createEmployee = async (req: Request, res: Response) => {
-  const employeeEntity: CreateEmployeeDTO = req.body;
-  try {
-    return res
-      .status(200)
-      .json(
-        new ApiResponse(
-          true,
-          "The employee created successfully",
-          await employeeService.createEmployee(employeeEntity)
-        )
-      );
-  } catch (error) {
-    if (
-      error instanceof NotFoundException ||
-      error instanceof BadRequestException ||
-      error instanceof ForbiddenException
-    )
+export const createPatient = async (req: Request, res: Response) => {
+  const employeeEntity: CreatePatientDTO = req.body;
+  db.run(
+    "INSERT INTO patients (national_id, name, frequent_sickness) VALUES (?,?,?)",
+    [
+      employeeEntity.nationalId,
+      employeeEntity.name,
+      employeeEntity.frequent_sickness,
+    ],
+    (err) => {
+      if (err) {
+        return res.status(400).json({ message: err.message });
+      } else {
+        return res
+          .status(200)
+          .json({ message: "The patient ceated successfully" });
+      }
+    }
+  );
+};
+
+export const getAllPatients = async (req: Request, res: Response) => {
+  const employeeEntity: CreatePatientDTO = req.body;
+  db.run("SELECT * FROM patients", (err, rows) => {
+    if (err) {
+      return res.status(400).json({ message: err.message });
+    } else {
+      console.log(rows);
       return res
-        .status(error.statusCode)
-        .json(new ApiResponse(false, error.message, null));
-    console.log(error);
-  }
+        .status(200)
+        .json({ message: "The patient retrived  successfully" });
+    }
+  });
 };

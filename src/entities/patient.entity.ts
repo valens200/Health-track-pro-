@@ -1,14 +1,15 @@
-import { Entity, PrimaryGeneratedColumn, Column } from "typeorm";
+import { Entity, PrimaryGeneratedColumn, Column, PrimaryColumn } from "typeorm";
 import { InitiatorAudit } from "../audit/initiator.audit";
 import { EAccountStatus } from "../enums/EAccountStatus.enum";
 import { EVisibility } from "../enums/EVisibibility.enum";
 import { UUID } from "crypto";
 @Entity("patients")
 export class Patient extends InitiatorAudit {
-  @PrimaryGeneratedColumn()
-  nationalId: UUID;
+  @Column()
+  @PrimaryColumn()
+  nationalId: string;
   @Column({ nullable: true })
-  firstName: string;
+  name: string;
 
   @Column({
     default: EAccountStatus[EAccountStatus.WAITING_FOR_EMAIL_VERIFICATION],
@@ -20,6 +21,6 @@ export class Patient extends InitiatorAudit {
 
   constructor(name: string) {
     super();
-    this.firstName = name;
+    this.name = name;
   }
 }

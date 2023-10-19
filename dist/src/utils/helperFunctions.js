@@ -32,9 +32,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getEnvironmentVariables = exports.initializeRepositories = exports.generateRandomFourDigitNumber = exports.hashString = exports.getEmployeeType = exports.getGender = exports.getTokens = void 0;
-const repositories_1 = require("../repositories/repositories");
-const ERepositoryType_enum_1 = require("../enums/ERepositoryType.enum");
+exports.generateRandomFourDigitNumber = exports.hashString = exports.getGender = exports.getTokens = void 0;
 const bad_request_exception_1 = require("../exceptions/bad-request.exception");
 const EUserType_enum_1 = require("../enums/EUserType.enum");
 const bcrypt = __importStar(require("bcrypt"));
@@ -88,17 +86,6 @@ const getGender = (gender) => {
     }
 };
 exports.getGender = getGender;
-const getEmployeeType = (type) => {
-    switch (type.toUpperCase()) {
-        case EUserType_enum_1.EUserType[EUserType_enum_1.EUserType.ADMIN]:
-            return EUserType_enum_1.EUserType[EUserType_enum_1.EUserType.ADMIN];
-        case EUserType_enum_1.EUserType[EUserType_enum_1.EUserType.PATIENT]:
-            return EUserType_enum_1.EUserType[EUserType_enum_1.EUserType.PATIENT];
-        default:
-            throw new bad_request_exception_1.BadRequestException("The provided employee type is invalid");
-    }
-};
-exports.getEmployeeType = getEmployeeType;
 const hashString = (input) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const hashed = yield bcrypt.hash(input, 10);
@@ -116,37 +103,4 @@ const generateRandomFourDigitNumber = () => {
     return Math.floor(Math.random() * (max - min + 1)) + min;
 };
 exports.generateRandomFourDigitNumber = generateRandomFourDigitNumber;
-const initializeRepositories = (repositoryType) => __awaiter(void 0, void 0, void 0, function* () {
-    const repositories = yield (0, repositories_1.getRepositories)();
-    switch (repositoryType.toUpperCase()) {
-        case ERepositoryType_enum_1.ERepositoryType[ERepositoryType_enum_1.ERepositoryType.PATIENT]:
-            return repositories.patientRepository;
-        case ERepositoryType_enum_1.ERepositoryType[ERepositoryType_enum_1.ERepositoryType.USER]:
-            return repositories.userRepository;
-        default:
-            throw new bad_request_exception_1.BadRequestException("The provided repo type is invalid");
-    }
-});
-exports.initializeRepositories = initializeRepositories;
-const getEnvironmentVariables = () => {
-    return {
-        type: "postgres",
-        host: `${process.env.DB_HOST}`,
-        port: 5432,
-        username: `${process.env.DB_USERNAME}`,
-        password: `${process.env.DB_PASSWORD}`,
-        database: `${process.env.DB_NAME}`,
-        synchronize: true,
-        logging: true,
-        entities: ["../src/entities/**/*.ts"],
-        migrations: ["../src/migrations/**/*.ts"],
-        subscribers: ["../src/subscribers/**/*.ts"],
-        cli: {
-            entitiesDir: "../src/entities",
-            migrationsDir: "../src/migrations",
-            subscribersDir: "../src/subscribers",
-        },
-    };
-};
-exports.getEnvironmentVariables = getEnvironmentVariables;
 //# sourceMappingURL=helperFunctions.js.map

@@ -1,4 +1,3 @@
-import { getRepositories } from "../repositories/repositories";
 import { ERepositoryType } from "../enums/ERepositoryType.enum";
 import { BadRequestException } from "../exceptions/bad-request.exception";
 import { EUserType } from "../enums/EUserType.enum";
@@ -62,18 +61,6 @@ export const getGender = (gender: string) => {
       throw new BadRequestException("The provided gender is invalid");
   }
 };
-
-export const getEmployeeType = (type: string) => {
-  switch (type.toUpperCase()) {
-    case EUserType[EUserType.ADMIN]:
-      return EUserType[EUserType.ADMIN];
-    case EUserType[EUserType.PATIENT]:
-      return EUserType[EUserType.PATIENT];
-    default:
-      throw new BadRequestException("The provided employee type is invalid");
-  }
-};
-
 export const hashString = async (input: string) => {
   try {
     const hashed = await bcrypt.hash(input, 10);
@@ -88,35 +75,4 @@ export const generateRandomFourDigitNumber = (): number => {
   const min = 1000;
   const max = 9999;
   return Math.floor(Math.random() * (max - min + 1)) + min;
-};
-export const initializeRepositories = async (repositoryType: string) => {
-  const repositories: any = await getRepositories();
-  switch (repositoryType.toUpperCase()) {
-    case ERepositoryType[ERepositoryType.PATIENT]:
-      return repositories.patientRepository;
-    case ERepositoryType[ERepositoryType.USER]:
-      return repositories.userRepository;
-    default:
-      throw new BadRequestException("The provided repo type is invalid");
-  }
-};
-export const getEnvironmentVariables = () => {
-  return {
-    type: "postgres",
-    host: `${process.env.DB_HOST}`,
-    port: 5432,
-    username: `${process.env.DB_USERNAME}`,
-    password: `${process.env.DB_PASSWORD}`,
-    database: `${process.env.DB_NAME}`,
-    synchronize: true,
-    logging: true,
-    entities: ["../src/entities/**/*.ts"],
-    migrations: ["../src/migrations/**/*.ts"],
-    subscribers: ["../src/subscribers/**/*.ts"],
-    cli: {
-      entitiesDir: "../src/entities",
-      migrationsDir: "../src/migrations",
-      subscribersDir: "../src/subscribers",
-    },
-  };
 };

@@ -1,8 +1,9 @@
 const express = require("express");
-import * as employeesService from "../services/employees.service";
+import * as employeeController from "../controllers/patientsController";
 
 const router = express.Router();
 
-router.post("/create", employeesService.createEmployee);
+router.post("/create", employeeController.createPatient);
+router.get("/all", employeeController.getAllPatients);
 
 module.exports = router;

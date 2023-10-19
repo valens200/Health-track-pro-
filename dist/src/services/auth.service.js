@@ -33,32 +33,22 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.login = void 0;
-const bad_request_exception_1 = require("../exceptions/bad-request.exception");
 const forbidden_exception_1 = require("../exceptions/forbidden.exception");
 const utils = __importStar(require("../utils/helperFunctions"));
 const employeeService = __importStar(require("../services/employees.service"));
 const bcrypt = __importStar(require("bcrypt"));
-const EUserType_enum_1 = require("../enums/EUserType.enum");
 let employee;
 const login = (dto) => __awaiter(void 0, void 0, void 0, function* () {
     let tokens;
-    switch (dto.userType.toUpperCase()) {
-        case EUserType_enum_1.EUserType[EUserType_enum_1.EUserType.PATIENT]:
-            break;
-        case EUserType_enum_1.EUserType[EUserType_enum_1.EUserType.ADMIN]:
-            employee = yield employeeService.getEmployeeByEmail(dto.email);
-            if (!employee)
-                throw new forbidden_exception_1.ForbiddenException("Invalid email or password");
-            const arePasswordsMatch = yield bcrypt.compare(
-            // employee.password,
-            dto.password);
-            if (!arePasswordsMatch)
-                throw new forbidden_exception_1.ForbiddenException("Invalid email or passsword");
-            tokens = yield utils.getTokens("employee", employee);
-            break;
-        default:
-            throw new bad_request_exception_1.BadRequestException("The provided user type is invalid");
-    }
+    employee = yield employeeService.getEmployeeByEmail(dto.email);
+    if (!employee)
+        throw new forbidden_exception_1.ForbiddenException("Invalid email or password");
+    const arePasswordsMatch = yield bcrypt.compare(
+    // employee.password,
+    dto.password);
+    if (!arePasswordsMatch)
+        throw new forbidden_exception_1.ForbiddenException("Invalid email or passsword");
+    tokens = yield utils.getTokens("employee", employee);
     return {
         user: employee,
         access_token: tokens.access_token,

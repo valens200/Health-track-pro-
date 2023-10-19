@@ -16,7 +16,7 @@ const getRepositories = () => __awaiter(void 0, void 0, void 0, function* () {
         .then((connection) => {
         return {
             userRepository: connection.getRepository("User"),
-            patientRepository: connection.getRepository("Patints"),
+            patientRepository: connection.getRepository("Patient"),
         };
     })
         .catch((err) => {
