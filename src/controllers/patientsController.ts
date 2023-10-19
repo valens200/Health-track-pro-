@@ -15,9 +15,10 @@ export const createPatient = async (req: Request, res: Response) => {
       if (err) {
         return res.status(400).json({ message: err.message });
       } else {
-        return res
-          .status(200)
-          .json({ message: "The patient ceated successfully" });
+        return res.status(200).json({
+          message: "The patient ceated successfully",
+          patientNationalId: employeeEntity.nationalId,
+        });
       }
     }
   );
@@ -29,10 +30,10 @@ export const getAllPatients = async (req: Request, res: Response) => {
     if (err) {
       return res.status(400).json({ message: err.message });
     } else {
-      console.log(rows);
-      return res
-        .status(200)
-        .json({ message: "The patient retrived  successfully" });
+      return res.status(200).json({
+        message: "The patient retrived  successfully",
+        patients: rows,
+      });
     }
   });
 };

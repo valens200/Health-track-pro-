@@ -4,50 +4,49 @@ import { EUserType } from "../enums/EUserType.enum";
 import * as bcrypt from "bcrypt";
 import * as jwt from "jsonwebtoken";
 import { EGender } from "../enums/EGender.enum";
-import { Patient } from "../entities/patient.entity";
 
-let user: Patient;
-let type: string;
-export const getTokens = async (entity: string, user: Patient) => {
-  switch (type.toUpperCase()) {
-    case EUserType[EUserType.ADMIN]:
-      type = EUserType[EUserType.ADMIN];
-      break;
-    case EUserType[EUserType.PATIENT]:
-      type = EUserType[EUserType.PATIENT];
-      break;
-    default:
-      throw new BadRequestException("The provided user type is invalid");
-  }
+// let user: Patient;
+// let type: string;
+// export const getTokens = async (entity: string, user: Patient) => {
+//   switch (type.toUpperCase()) {
+//     case EUserType[EUserType.ADMIN]:
+//       type = EUserType[EUserType.ADMIN];
+//       break;
+//     case EUserType[EUserType.PATIENT]:
+//       type = EUserType[EUserType.PATIENT];
+//       break;
+//     default:
+//       throw new BadRequestException("The provided user type is invalid");
+//   }
 
-  const accessToken: String = await jwt.signAsync(
-    {
-      type: type,
-      // roles: user.roles,
-      id: user.nationalId,
-    },
-    {
-      expiresIn: "10h",
-      secret: process.env.SECRET_KEY,
-    }
-  );
+//   const accessToken: String = await jwt.signAsync(
+//     {
+//       type: type,
+//       // roles: user.roles,
+//       id: user.nationalId,
+//     },
+//     {
+//       expiresIn: "10h",
+//       secret: process.env.SECRET_KEY,
+//     }
+//   );
 
-  const refreshToken: String = await jwt.signAsync(
-    {
-      type: type,
-      // roles: user.roles,
-      id: user.nationalId,
-    },
-    {
-      expiresIn: "1d",
-      secret: process.env.SECRET_KEY,
-    }
-  );
-  return {
-    accessToken: accessToken,
-    refreshToken: refreshToken,
-  };
-};
+//   const refreshToken: String = await jwt.signAsync(
+//     {
+//       type: type,
+//       // roles: user.roles,
+//       id: user.nationalId,
+//     },
+//     {
+//       expiresIn: "1d",
+//       secret: process.env.SECRET_KEY,
+//     }
+//   );
+//   return {
+//     accessToken: accessToken,
+//     refreshToken: refreshToken,
+//   };
+// };
 
 export const getGender = (gender: string) => {
   switch (gender.toUpperCase()) {

@@ -16,7 +16,7 @@ exports.getAllPatients = exports.createPatient = void 0;
 const connection_1 = __importDefault(require("../database/connection"));
 const createPatient = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const employeeEntity = req.body;
-    connection_1.default.run("INSERT INTO patients (national_id, name, frequent_sickness) VALUES (?,?,?)", [
+    connection_1.default.run("INSERT INTO records (national_id, name, frequent_sickness) VALUES (?,?,?)", [
         employeeEntity.nationalId,
         employeeEntity.name,
         employeeEntity.frequent_sickness,
@@ -25,27 +25,26 @@ const createPatient = (req, res) => __awaiter(void 0, void 0, void 0, function* 
             return res.status(400).json({ message: err.message });
         }
         else {
-            return res.status(200).json({
-                message: "The patient ceated successfully",
-                patientNationalId: employeeEntity.nationalId,
-            });
+            return res
+                .status(200)
+                .json({ message: "The patient ceated successfully" });
         }
     });
 });
 exports.createPatient = createPatient;
 const getAllPatients = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const employeeEntity = req.body;
-    connection_1.default.run("SELECT * FROM patients", (err, rows) => {
+    connection_1.default.run("SELECT * FROM records", (err, rows) => {
         if (err) {
             return res.status(400).json({ message: err.message });
         }
         else {
-            return res.status(200).json({
-                message: "The patient retrived  successfully",
-                patients: rows,
-            });
+            console.log(rows);
+            return res
+                .status(200)
+                .json({ message: "The patient retrived  successfully" });
         }
     });
 });
 exports.getAllPatients = getAllPatients;
-//# sourceMappingURL=patientsController.js.map
+//# sourceMappingURL=records.controller.js.map
