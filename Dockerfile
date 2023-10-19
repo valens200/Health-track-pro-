@@ -15,7 +15,7 @@ RUN npm install @nestjs/swagger
 
 # Bundle app source
 COPY . .
-RUN npm run dev
+# RUN npm run dev
 
 
 EXPOSE 3000
