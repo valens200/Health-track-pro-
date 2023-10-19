@@ -16,11 +16,19 @@ class TimeStampAudit {
 }
 exports.TimeStampAudit = TimeStampAudit;
 __decorate([
-    (0, typeorm_1.CreateDateColumn)({ name: "created_at", default: new Date(Date.now()) }),
+    (0, typeorm_1.CreateDateColumn)({
+        name: "created_at",
+        type: "datetime",
+        default: () => "CURRENT_TIMESTAMP",
+    }),
     __metadata("design:type", Date)
 ], TimeStampAudit.prototype, "createdAt", void 0);
 __decorate([
-    (0, typeorm_1.CreateDateColumn)({ name: "updated_at", default: new Date(Date.now()) }),
+    (0, typeorm_1.CreateDateColumn)({
+        name: "updated_at",
+        type: "datetime",
+        default: () => "CURRENT_TIMESTAMP",
+    }),
     __metadata("design:type", Date)
 ], TimeStampAudit.prototype, "updatedAt", void 0);
 //# sourceMappingURL=timestamp.audit.js.map

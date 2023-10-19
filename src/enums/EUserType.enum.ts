@@ -1,5 +1,4 @@
 export enum EUserType {
-  COMPANY,
-  EMPLOYEE,
+  PATIENT,
   ADMIN,
 }

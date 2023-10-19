@@ -1,5 +1,4 @@
 export enum ERepositoryType {
-  EMPLOYEE,
+  PATIENT,
   USER,
-  COMPANY,
 }

@@ -5,8 +5,7 @@ export const getRepositories = async () => {
     .then((connection) => {
       return {
         userRepository: connection.getRepository("User"),
-        employeeRepository: connection.getRepository("Employee"),
-        companyRepository: connection.getRepository("Company"),
+        patientRepository: connection.getRepository("Patints"),
       };
     })
     .catch((err) => {

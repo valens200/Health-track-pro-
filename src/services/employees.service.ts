@@ -1,33 +1,26 @@
 import { UUID } from "crypto";
 import { NotFoundException } from "../exceptions/not-found.exception";
-import { User } from "../entities/user.entity";
 import { EVisibility } from "../enums/EVisibibility.enum";
 import { initializeRepositories } from "../utils/helperFunctions";
 import { CreateEmployeeDTO } from "../dtos/employees/create-employee.dto";
-import { Employee } from "../entities/employee.entity";
-import * as utilsService from "../utils/helperFunctions";
+import { Patient } from "../entities/patient.entity";
 
 let employeeRepo;
 let user: any;
-let users: User[] = [];
+let users: Patient[] = [];
 export const initializeRepository = async () => {
   employeeRepo = await initializeRepositories("employee");
 };
 
 export const createEmployee = async (employeeEntity: CreateEmployeeDTO) => {
   await initializeRepository();
-  let employee = await getEmployeByEmail(employeeEntity.email);
+  let employee = await getEmployeByEmail(employeeEntity.name);
   if (employee)
     throw new NotFoundException("That employee is already registered");
-  let employeeToCreate: Employee = new Employee(
-    employeeEntity.firstName,
-    employeeEntity.lastName,
-    employeeEntity.password,
-    employeeEntity.email
-  );
-  employeeToCreate.password = await utilsService.hashString(
-    employeeToCreate.password
-  );
+  let employeeToCreate: Patient = new Patient(employeeEntity.name);
+  // employeeToCreate.password = await utilsService.hashString(
+  //   employeeToCreate.password
+  // );
   return await employeeRepo.save(employeeToCreate);
 };
 export const getEmployeeById = async (id: UUID) => {
@@ -65,7 +58,7 @@ export const deleteEmployeeById = async (id: UUID) => {
 export const deleteAllEmployees = async () => {
   await initializeRepository();
   users = await employeeRepo.find({});
-  users.forEach(async (user: User) => {
+  users.forEach(async (user: Patient) => {
     user.visibility = EVisibility[EVisibility.HIDDEN];
     await employeeRepo.save(user);
   });

@@ -2,20 +2,20 @@ import { getRepositories } from "../repositories/repositories";
 import { ERepositoryType } from "../enums/ERepositoryType.enum";
 import { BadRequestException } from "../exceptions/bad-request.exception";
 import { EUserType } from "../enums/EUserType.enum";
-import { User } from "../entities/user.entity";
 import * as bcrypt from "bcrypt";
 import * as jwt from "jsonwebtoken";
 import { EGender } from "../enums/EGender.enum";
+import { Patient } from "../entities/patient.entity";
 
-let user: User;
+let user: Patient;
 let type: string;
-export const getTokens = async (entity: string, user: User) => {
+export const getTokens = async (entity: string, user: Patient) => {
   switch (type.toUpperCase()) {
-    case EUserType[EUserType.COMPANY]:
-      type = EUserType[EUserType.COMPANY];
+    case EUserType[EUserType.ADMIN]:
+      type = EUserType[EUserType.ADMIN];
       break;
-    case EUserType[EUserType.EMPLOYEE]:
-      type = EUserType[EUserType.EMPLOYEE];
+    case EUserType[EUserType.PATIENT]:
+      type = EUserType[EUserType.PATIENT];
       break;
     default:
       throw new BadRequestException("The provided user type is invalid");
@@ -25,7 +25,7 @@ export const getTokens = async (entity: string, user: User) => {
     {
       type: type,
       // roles: user.roles,
-      id: user.id,
+      id: user.nationalId,
     },
     {
       expiresIn: "10h",
@@ -37,7 +37,7 @@ export const getTokens = async (entity: string, user: User) => {
     {
       type: type,
       // roles: user.roles,
-      id: user.id,
+      id: user.nationalId,
     },
     {
       expiresIn: "1d",
@@ -67,8 +67,8 @@ export const getEmployeeType = (type: string) => {
   switch (type.toUpperCase()) {
     case EUserType[EUserType.ADMIN]:
       return EUserType[EUserType.ADMIN];
-    case EUserType[EUserType.EMPLOYEE]:
-      return EUserType[EUserType.EMPLOYEE];
+    case EUserType[EUserType.PATIENT]:
+      return EUserType[EUserType.PATIENT];
     default:
       throw new BadRequestException("The provided employee type is invalid");
   }
@@ -92,10 +92,8 @@ export const generateRandomFourDigitNumber = (): number => {
 export const initializeRepositories = async (repositoryType: string) => {
   const repositories: any = await getRepositories();
   switch (repositoryType.toUpperCase()) {
-    case ERepositoryType[ERepositoryType.COMPANY]:
-      return repositories.companyRepository;
-    case ERepositoryType[ERepositoryType.EMPLOYEE]:
-      return repositories.employeeRepository;
+    case ERepositoryType[ERepositoryType.PATIENT]:
+      return repositories.patientRepository;
     case ERepositoryType[ERepositoryType.USER]:
       return repositories.userRepository;
     default:

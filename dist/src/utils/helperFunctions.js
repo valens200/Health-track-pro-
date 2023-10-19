@@ -44,11 +44,11 @@ let user;
 let type;
 const getTokens = (entity, user) => __awaiter(void 0, void 0, void 0, function* () {
     switch (type.toUpperCase()) {
-        case EUserType_enum_1.EUserType[EUserType_enum_1.EUserType.COMPANY]:
-            type = EUserType_enum_1.EUserType[EUserType_enum_1.EUserType.COMPANY];
+        case EUserType_enum_1.EUserType[EUserType_enum_1.EUserType.ADMIN]:
+            type = EUserType_enum_1.EUserType[EUserType_enum_1.EUserType.ADMIN];
             break;
-        case EUserType_enum_1.EUserType[EUserType_enum_1.EUserType.EMPLOYEE]:
-            type = EUserType_enum_1.EUserType[EUserType_enum_1.EUserType.EMPLOYEE];
+        case EUserType_enum_1.EUserType[EUserType_enum_1.EUserType.PATIENT]:
+            type = EUserType_enum_1.EUserType[EUserType_enum_1.EUserType.PATIENT];
             break;
         default:
             throw new bad_request_exception_1.BadRequestException("The provided user type is invalid");
@@ -56,7 +56,7 @@ const getTokens = (entity, user) => __awaiter(void 0, void 0, void 0, function* 
     const accessToken = yield jwt.signAsync({
         type: type,
         // roles: user.roles,
-        id: user.id,
+        id: user.nationalId,
     }, {
         expiresIn: "10h",
         secret: process.env.SECRET_KEY,
@@ -64,7 +64,7 @@ const getTokens = (entity, user) => __awaiter(void 0, void 0, void 0, function* 
     const refreshToken = yield jwt.signAsync({
         type: type,
         // roles: user.roles,
-        id: user.id,
+        id: user.nationalId,
     }, {
         expiresIn: "1d",
         secret: process.env.SECRET_KEY,
@@ -92,8 +92,8 @@ const getEmployeeType = (type) => {
     switch (type.toUpperCase()) {
         case EUserType_enum_1.EUserType[EUserType_enum_1.EUserType.ADMIN]:
             return EUserType_enum_1.EUserType[EUserType_enum_1.EUserType.ADMIN];
-        case EUserType_enum_1.EUserType[EUserType_enum_1.EUserType.EMPLOYEE]:
-            return EUserType_enum_1.EUserType[EUserType_enum_1.EUserType.EMPLOYEE];
+        case EUserType_enum_1.EUserType[EUserType_enum_1.EUserType.PATIENT]:
+            return EUserType_enum_1.EUserType[EUserType_enum_1.EUserType.PATIENT];
         default:
             throw new bad_request_exception_1.BadRequestException("The provided employee type is invalid");
     }
@@ -119,10 +119,8 @@ exports.generateRandomFourDigitNumber = generateRandomFourDigitNumber;
 const initializeRepositories = (repositoryType) => __awaiter(void 0, void 0, void 0, function* () {
     const repositories = yield (0, repositories_1.getRepositories)();
     switch (repositoryType.toUpperCase()) {
-        case ERepositoryType_enum_1.ERepositoryType[ERepositoryType_enum_1.ERepositoryType.COMPANY]:
-            return repositories.companyRepository;
-        case ERepositoryType_enum_1.ERepositoryType[ERepositoryType_enum_1.ERepositoryType.EMPLOYEE]:
-            return repositories.employeeRepository;
+        case ERepositoryType_enum_1.ERepositoryType[ERepositoryType_enum_1.ERepositoryType.PATIENT]:
+            return repositories.patientRepository;
         case ERepositoryType_enum_1.ERepositoryType[ERepositoryType_enum_1.ERepositoryType.USER]:
             return repositories.userRepository;
         default:

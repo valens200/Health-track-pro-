@@ -2,9 +2,17 @@ import { CreateDateColumn, serialize } from "typeorm";
 
 export class TimeStampAudit {
   constructor() {}
-  @CreateDateColumn({ name: "created_at", default: new Date(Date.now()) })
+  @CreateDateColumn({
+    name: "created_at",
+    type: "datetime",
+    default: () => "CURRENT_TIMESTAMP",
+  })
   createdAt: Date;
 
-  @CreateDateColumn({ name: "updated_at", default: new Date(Date.now()) })
+  @CreateDateColumn({
+    name: "updated_at",
+    type: "datetime",
+    default: () => "CURRENT_TIMESTAMP",
+  })
   updatedAt: Date;
 }

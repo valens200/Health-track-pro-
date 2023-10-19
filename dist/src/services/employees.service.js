@@ -1,27 +1,4 @@
 "use strict";
-var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    var desc = Object.getOwnPropertyDescriptor(m, k);
-    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
-      desc = { enumerable: true, get: function() { return m[k]; } };
-    }
-    Object.defineProperty(o, k2, desc);
-}) : (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    o[k2] = m[k];
-}));
-var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
-    Object.defineProperty(o, "default", { enumerable: true, value: v });
-}) : function(o, v) {
-    o["default"] = v;
-});
-var __importStar = (this && this.__importStar) || function (mod) {
-    if (mod && mod.__esModule) return mod;
-    var result = {};
-    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
-    __setModuleDefault(result, mod);
-    return result;
-};
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -36,8 +13,7 @@ exports.deleteAllEmployees = exports.deleteEmployeeById = exports.UpdateEmployee
 const not_found_exception_1 = require("../exceptions/not-found.exception");
 const EVisibibility_enum_1 = require("../enums/EVisibibility.enum");
 const helperFunctions_1 = require("../utils/helperFunctions");
-const employee_entity_1 = require("../entities/employee.entity");
-const utilsService = __importStar(require("../utils/helperFunctions"));
+const patient_entity_1 = require("../entities/patient.entity");
 let employeeRepo;
 let user;
 let users = [];
@@ -47,11 +23,13 @@ const initializeRepository = () => __awaiter(void 0, void 0, void 0, function* (
 exports.initializeRepository = initializeRepository;
 const createEmployee = (employeeEntity) => __awaiter(void 0, void 0, void 0, function* () {
     yield (0, exports.initializeRepository)();
-    let employee = yield (0, exports.getEmployeByEmail)(employeeEntity.email);
+    let employee = yield (0, exports.getEmployeByEmail)(employeeEntity.name);
     if (employee)
         throw new not_found_exception_1.NotFoundException("That employee is already registered");
-    let employeeToCreate = new employee_entity_1.Employee(employeeEntity.firstName, employeeEntity.lastName, employeeEntity.password, employeeEntity.email);
-    employeeToCreate.password = yield utilsService.hashString(employeeToCreate.password);
+    let employeeToCreate = new patient_entity_1.Patient(employeeEntity.name);
+    // employeeToCreate.password = await utilsService.hashString(
+    //   employeeToCreate.password
+    // );
     return yield employeeRepo.save(employeeToCreate);
 });
 exports.createEmployee = createEmployee;

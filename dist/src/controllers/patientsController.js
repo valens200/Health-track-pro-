@@ -32,38 +32,28 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.login = void 0;
+exports.createEmployee = void 0;
+const not_found_exception_1 = require("../exceptions/not-found.exception");
 const bad_request_exception_1 = require("../exceptions/bad-request.exception");
 const forbidden_exception_1 = require("../exceptions/forbidden.exception");
-const utils = __importStar(require("../utils/helperFunctions"));
+const apiResponse_1 = require("../payload/apiResponse");
 const employeeService = __importStar(require("../services/employees.service"));
-const bcrypt = __importStar(require("bcrypt"));
-const EUserType_enum_1 = require("../enums/EUserType.enum");
-let employee;
-const login = (dto) => __awaiter(void 0, void 0, void 0, function* () {
-    let tokens;
-    switch (dto.userType.toUpperCase()) {
-        case EUserType_enum_1.EUserType[EUserType_enum_1.EUserType.PATIENT]:
-            break;
-        case EUserType_enum_1.EUserType[EUserType_enum_1.EUserType.ADMIN]:
-            employee = yield employeeService.getEmployeeByEmail(dto.email);
-            if (!employee)
-                throw new forbidden_exception_1.ForbiddenException("Invalid email or password");
-            const arePasswordsMatch = yield bcrypt.compare(
-            // employee.password,
-            dto.password);
-            if (!arePasswordsMatch)
-                throw new forbidden_exception_1.ForbiddenException("Invalid email or passsword");
-            tokens = yield utils.getTokens("employee", employee);
-            break;
-        default:
-            throw new bad_request_exception_1.BadRequestException("The provided user type is invalid");
+const createEmployee = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const employeeEntity = req.body;
+    try {
+        return res
+            .status(200)
+            .json(new apiResponse_1.ApiResponse(true, "The employee created successfully", yield employeeService.createEmployee(employeeEntity)));
     }
-    return {
-        user: employee,
-        access_token: tokens.access_token,
-        refresh_token: tokens.tokens,
-    };
+    catch (error) {
+        if (error instanceof not_found_exception_1.NotFoundException ||
+            error instanceof bad_request_exception_1.BadRequestException ||
+            error instanceof forbidden_exception_1.ForbiddenException)
+            return res
+                .status(error.statusCode)
+                .json(new apiResponse_1.ApiResponse(false, error.message, null));
+        console.log(error);
+    }
 });
-exports.login = login;
-//# sourceMappingURL=auth.service.js.map
+exports.createEmployee = createEmployee;
+//# sourceMappingURL=patientsController.js.map

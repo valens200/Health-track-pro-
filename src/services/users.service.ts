@@ -1,12 +1,12 @@
 import { UUID } from "crypto";
 import { getRepositories } from "../repositories/repositories";
 import { NotFoundException } from "../exceptions/not-found.exception";
-import { User } from "../entities/user.entity";
 import { EVisibility } from "../enums/EVisibibility.enum";
+import { Patient } from "../entities/patient.entity";
 
 let repositories;
 let user: any;
-let users: User[] = [];
+let users: Patient[] = [];
 export const initializeRepositories = async () => {
   repositories = await getRepositories();
 };
@@ -39,7 +39,7 @@ export const deleteUserById = async (id: UUID) => {
 export const deleteAllUsers = async () => {
   await initializeRepositories();
   users = await repositories.userRepository.find({});
-  users.forEach(async (user: User) => {
+  users.forEach(async (user: Patient) => {
     user.visibility = EVisibility[EVisibility.HIDDEN];
     await repositories.userRepository.save(user);
   });
